@@ -1,0 +1,32 @@
+class Solution {
+    public int chalkReplacer(int[] chalk, int k) {
+//         int n=chalk.length;
+//         for(int i=0; ;i++){
+//             if(chalk[i%n]>k){
+//                 return i%n;
+//             }
+//             k-=chalk[i%n];
+//         }
+//     }
+// }
+// Step 1: Calculate the total chalk required for one round
+    long totalChalk = 0;
+    for (int c : chalk) {
+        totalChalk += c;
+    }
+
+    // Step 2: Reduce k by the total chalk until k is less than totalChalk
+    k %= totalChalk;
+
+    // Step 3: Find the student who will need more chalk
+    for (int i = 0; i < chalk.length; i++) {
+        if (k < chalk[i]) {
+            return i;
+        }
+        k -= chalk[i];
+    }
+
+    // If something goes wrong (though it shouldn't), return -1
+    return -1;
+}
+}

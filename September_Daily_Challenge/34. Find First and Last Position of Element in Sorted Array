@@ -1,0 +1,17 @@
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int first=-1; // right now first and last are inittailsed as -1 as the target has yet not been found and if the whole array is traversed and the target is not found then we return -1 only
+        int last=-1;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==target){
+                if(first==-1) first=i; // if first==-1 then we change the first to the index of first occurence of target 
+                    last=i; // we keep on changing last occurence as first occurence will be fixed and last occurence keeps on changing depending on target 
+                }
+        }
+            int arr[]=new int[2]; // create an array and store first and last in it
+            arr[0]=first;
+            arr[1]=last;
+        
+        return arr; // return the array
+    }
+}

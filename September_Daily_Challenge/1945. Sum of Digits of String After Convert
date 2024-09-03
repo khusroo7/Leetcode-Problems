@@ -1,0 +1,22 @@
+class Solution {
+    public int getLucky(String s, int k) {
+        int sum=0;
+        for(char ch:s.toCharArray()){ // converting the string to character array
+        int convert=ch-'a'+1; // now we convert s into integer
+        while(convert>0){ // now suppose integer=1234 so till convert>0 we do modulo to get last digit and then divide to get the first digit so it will be like 1+2+3+4=10
+            sum+=convert%10;
+            convert/=10;
+        }
+        }
+        while(k>1){ // till k>1 we simply perform the above operation and take out the last digit and first digit
+            int newsum=0;
+            while(sum>0){
+                newsum+=sum%10;
+                sum/=10;
+            }
+            k--;
+            sum=newsum; // after that whatever is the new sum we assign it to sum and return it
+        }
+    return sum;
+}
+}

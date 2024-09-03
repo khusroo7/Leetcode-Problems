@@ -1,0 +1,13 @@
+lass Solution {
+    public int addDigits(int num) {
+        while(num>9){ // if num<0 we simply do num=sum and return num
+            int sum=0;
+            while(num>0){
+            sum+=num%10; // tarversing the digit now and getting tha lastg digit by modulo
+            num/=10; // getting the lasyt digit by dividing
+        }
+         num=sum;
+    }
+    return num;
+}
+}

@@ -1,0 +1,25 @@
+class Solution {
+    public int[] missingRolls(int[] rolls, int mean, int n) {
+        int m=rolls.length;
+        int sum=0;
+        for(int i=0;i<rolls.length;i++){
+            sum+=rolls[i];
+        }
+        int missingSum=(mean * (m+n) )-sum; // missing Sum of missing observations
+
+        if(missingSum<n || missingSum>6*n){ // condition to check if missingSum<n i.e 4 or missingSum>6*n i.e >24
+            return new int[0]; // we return an empty array if any condition is true
+        }
+         int average=missingSum/n; // filling the missing elements by average like if missingSum=9 and n=4 then 9/4=2 we fill four places with 2 i.e 2 2 2 2
+         int remainder= missingSum%n; // if remainder>0 we increment the index of that specific element such as 9%4=1 so we fill values like 3 2 2 2
+         int res[]= new int[n];
+         for(int i=0;i<n;i++){
+            res[i]=average;
+            if(remainder>0){
+                res[i]++;
+                remainder--;
+            }
+         }
+         return res; // return the resultant array
+    }
+}

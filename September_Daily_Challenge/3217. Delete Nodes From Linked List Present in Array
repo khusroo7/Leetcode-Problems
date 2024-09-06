@@ -1,0 +1,25 @@
+class Solution {
+    public ListNode modifiedList(int[] nums, ListNode head) {
+        // Step 1: Add all elements from the nums array into a HashSet for quick lookup
+        Set<Integer> sett= new HashSet<>(); 
+        for(int i=0;i<nums.length;i++){
+            sett.add(nums[i]);
+        }
+        // Step 2: Create a dummy node to handle edge cases like removing the head node
+        ListNode dummy= new ListNode(0); // Dummy node with a value of 0
+        dummy.next=head; // Point dummy's next to the head of the list
+        ListNode prev=dummy; // This will be used to keep track of the node before the current one
+        ListNode curr=head;  // Start from the head of the list
+        
+        // Step 3: Traverse the linked list
+        while(curr!=null){  // If the current node's value is in the set, remove the current node by skipping it
+            if(sett.contains(curr.val)){
+                prev.next=curr.next; // Link previous node to the next node, effectively removing the current node
+            }else{
+            prev=curr;  // If the current node is not removed, move prev to current
+        }
+        curr=curr.next; // Move to the next node in the list
+    }
+    return dummy.next; // Step 4: Return the modified list starting from the next node of dummy (skipping the dummy node itself)
+} 
+}

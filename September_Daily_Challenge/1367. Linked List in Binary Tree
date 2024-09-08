@@ -1,0 +1,25 @@
+class Solution {
+    public boolean dfs(ListNode head, TreeNode node){
+        // Base case: If the linked list is fully traversed, return true (all nodes matched).
+        if(head==null) return true;  
+        // If the tree node is null or values don't match, return false.
+        if(node==null) return false;
+         // Recur for the next linked list node and the left and right child of the current tree node.
+        // We return true if either of the recursive calls finds a valid path.
+        if(head.val!=node.val) return false;
+        return dfs(head.next, node.left) || dfs(head.next, node.right);
+    }
+    public boolean isSubPath(ListNode head, TreeNode root) {
+        // Base case: If the root of the tree is null, there can be no matching path, return false.
+        if (root == null) return false;
+        // If the current tree node's value matches the head of the linked list, we check for a path starting here.
+        if(head.val==root.val){
+            // If a valid sub-path is found starting from this node, return true.
+            if(dfs(head,root)){
+                return true;
+            }
+        }
+        // Recur for the left and right subtrees to continue searching for a valid sub-path.
+        return isSubPath(head, root.left) || isSubPath(head, root.right);
+    }
+}

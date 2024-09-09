@@ -1,0 +1,32 @@
+class Solution {
+    public String frequencySort(String s) {
+       // Create a StringBuilder to store the final result
+    StringBuilder sb = new StringBuilder();
+    
+    // Create a HashMap to store the frequency of each character in the string
+    Map<Character, Integer> mpp = new HashMap<>();
+    
+    // Loop through the characters of the string and count the occurrences of each character
+    for (char ch : s.toCharArray()) {
+        // If the character is already in the map, increment its count; otherwise, set it to 1
+        mpp.put(ch, mpp.getOrDefault(ch, 0) + 1);
+    }
+    
+    // Create a list of the characters (keys) from the HashMap
+    List<Character> list = new ArrayList<>(mpp.keySet());
+    
+    // Sort the list of characters based on their frequency in descending order
+    list.sort((ob1, ob2) -> mpp.get(ob2) - mpp.get(ob1)); // Compare frequencies using the values from the map
+    
+    // Loop through the sorted list of characters
+    for (char ch : list) {
+        // Append each character to the StringBuilder as many times as its frequency
+        for (int i = 0; i < mpp.get(ch); i++) {
+            sb.append(ch);
+        }
+    }
+    
+    // Convert the StringBuilder to a string and return the result
+    return sb.toString();
+}
+}

@@ -1,0 +1,26 @@
+class Solution {
+    // Helper method to calculate the beauty (difference between max and min frequency) of the current substring
+    private int calculateBeauty(Map<Character,Integer>mpp){
+        int maxFreq=Integer.MIN_VALUE;
+        int minFreq=Integer.MAX_VALUE;
+
+        for(int freq:mpp.values()){ // Iterate over the frequency map to find the max and min frequency of characters
+            maxFreq=Math.max(maxFreq,freq); // maximum frequency
+            minFreq=Math.min(minFreq,freq); // minimum frequency
+        }
+        return maxFreq - minFreq; // Beauty is the difference between the maximum and minimum frequency
+    }
+    public int beautySum(String s) {
+        int totalBeauty=0; // Variable to store the sum of the beauty of all substrings
+        for(int i=0;i<s.length();i++){ // Iterate over all possible starting points of substrings
+             Map<Character,Integer>mpp= new HashMap<>();
+            for(int j=i;j<s.length();j++){ // Update the frequency of the current character
+                char ch=s.charAt(j);
+                mpp.put(ch, mpp.getOrDefault(ch,0)+1);
+        
+        totalBeauty+=calculateBeauty(mpp); // Calculate the beauty for the current substring (from i to j)
+    }
+        }
+    return totalBeauty;
+}
+}

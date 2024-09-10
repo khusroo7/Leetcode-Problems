@@ -1,0 +1,42 @@
+class Solution {
+    public int[][] spiralMatrix(int m, int n, ListNode head) {
+         // Initialize the m x n matrix with -1
+        int[][] matrix = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = -1;
+            }
+        }
+        
+        // Directions for the spiral movement: right, down, left, up
+        int[] rowDir = {0, 1, 0, -1};
+        int[] colDir = {1, 0, -1, 0};
+        
+        int row = 0, col = 0; // Starting position
+        int direction = 0; // Start by moving right
+        ListNode currentNode = head;
+        
+        // Fill the matrix in spiral order
+        for (int i = 0; i < m * n && currentNode != null; i++) {
+            matrix[row][col] = currentNode.val; // Place current linked list value in the matrix
+            currentNode = currentNode.next;     // Move to the next node in the list
+            
+            // Calculate the next row and column in the current direction
+            int nextRow = row + rowDir[direction];
+            int nextCol = col + colDir[direction];
+            
+            // If we go out of bounds or the next cell is already filled, change direction
+            if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n || matrix[nextRow][nextCol] != -1) {
+                direction = (direction + 1) % 4; // Change direction clockwise
+                nextRow = row + rowDir[direction];
+                nextCol = col + colDir[direction];
+            }
+            
+            // Move to the next position
+            row = nextRow;
+            col = nextCol;
+        }
+        
+        return matrix; // Return the filled spiral matrix
+    }
+}

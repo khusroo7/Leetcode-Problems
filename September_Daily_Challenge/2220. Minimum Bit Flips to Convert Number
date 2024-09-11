@@ -1,0 +1,16 @@
+class Solution {
+    public int minBitFlips(int start, int goal) {
+
+        // // XOR the two numbers and count the number of differing bits
+        // return Integer.bitCount(start ^ goal);
+
+
+        int xor= start ^ goal; // xor the two number to find where they differ
+        int count=0;
+        while(xor>0){ // while the result of xor is greater than 0
+        count+=xor & 1; // If the least significant bit is 1, increment the count
+        xor>>=1; // Right shift xorResult to process the next bit
+        }
+        return count;
+    }
+}

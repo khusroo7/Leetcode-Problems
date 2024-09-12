@@ -1,0 +1,24 @@
+class Solution {
+    public int countConsistentStrings(String allowed, String[] words) {
+        Set<Character>sett= new HashSet<>();
+        // Add each character in 'allowed' to the set
+        for(char ch:allowed.toCharArray()){
+            sett.add(ch);
+        }
+        int count=0;
+        // Check each word in 'words'
+        for (String word : words) {
+            boolean isConsistent=true;
+            for(char ch:word.toCharArray()){
+                if(!sett.contains(ch)){  // If a character is not in 'allowed', it's inconsistent
+                    isConsistent=false;
+                    break;
+                }
+            }
+            if(isConsistent){ // if each character is present we increment the count
+                count++;
+            }
+    }
+     return count;
+}
+}

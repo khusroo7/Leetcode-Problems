@@ -1,0 +1,37 @@
+class Solution {
+    public int[] xorQueries(int[] arr, int[][] queries) {
+        
+    // Step 1: Create a prefix XOR array to store XOR of elements from the start to the current index
+    int prefix[] = new int[arr.length];  // Initialize prefix array of the same size as arr
+    prefix[0] = arr[0];  // Set the first element of prefix as the first element of arr
+    int xor = prefix[0]; // Initialize the variable xor with the first element of arr (prefix[0])
+
+    // Step 2: Fill the prefix array where prefix[i] = XOR of all elements from arr[0] to arr[i]
+    for (int i = 1; i < arr.length; i++) {
+        xor ^= arr[i];  // Compute XOR of current element arr[i] with previous XOR result
+        prefix[i] = xor; // Store the result in prefix[i]
+    }
+
+    // Step 3: Initialize an array to store the result for each query
+    int[] ans = new int[queries.length]; // Create an array 'ans' of the same length as the number of queries
+
+    // Step 4: Process each query and calculate the XOR of the subarray for each query
+    for (int i = 0; i < queries.length; i++) {
+        int left = queries[i][0];  // Get the left index of the query range
+        int right = queries[i][1]; // Get the right index of the query range
+
+        // XOR of the elements from left to right is stored in prefix[right]
+        ans[i] = prefix[right]; // Start with the XOR up to the right index
+
+        // If the left index is greater than 0, we need to remove the XOR of the elements before the left index
+        if (left > 0) {
+            // XOR with prefix[left-1] to remove the XOR of elements before the left index
+            ans[i] ^= prefix[left - 1];
+        }
+    }
+
+    // Step 5: Return the result array which contains XOR values for each query
+    return ans;
+
+    }
+}

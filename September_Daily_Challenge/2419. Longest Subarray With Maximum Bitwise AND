@@ -1,0 +1,41 @@
+class Solution {
+    // Method to find the length of the longest subarray containing only the maximum element in the array
+    public int longestSubarray(int[] nums) {
+        // Variable to keep track of the count of consecutive occurrences of the maximum element
+        int count = 0;
+        
+        // Variable to store the current maximum element found in the array
+        int max = 0;
+        
+        // Variable to store the length of the longest subarray found so far
+        int ans = 0;
+        
+        // Iterate through each element in the array
+        for(int i : nums) {
+            // If the current element is equal to the maximum element found so far
+            if(i == max) {
+                // Increase the count of consecutive occurrences
+                count += 1;
+            }
+            // If the current element is greater than the maximum element found so far
+            else if(i > max) {
+                // Reset the count and update the answer to 1 (since this is a new subarray of maximum element)
+                count = ans = 1;
+                
+                // Update the maximum element to the current element
+                max = i;
+            }
+            // If the current element is smaller than the maximum element
+            else {
+                // Reset the count since we no longer have consecutive occurrences of the maximum element
+                count = 0;
+            }
+            
+            // Update the length of the longest subarray found so far
+            ans = Math.max(ans, count);
+        }
+        
+        // Return the length of the longest subarray containing only the maximum element
+        return ans;
+    }
+}

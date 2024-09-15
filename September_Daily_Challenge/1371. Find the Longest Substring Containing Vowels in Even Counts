@@ -1,0 +1,42 @@
+class Solution {
+    public int findTheLongestSubstring(String s) {
+        // Variable to store the XOR result which represents the current state of vowels
+        int xor = 0;
+        
+        // Variable to store the length of the longest valid substring
+        int ans = 0;
+        
+        // HashMap to store the first occurrence of a particular XOR value (vowel state)
+        // The key is the XOR value, and the value is the index where this XOR value was first seen
+        Map<Integer, Integer> mpp = new HashMap<>();
+        
+        // Initialize the map with 0 XOR state at index -1
+        // This is to handle the case when a valid substring starts from the beginning
+        mpp.put(0, -1);
+        
+        // Iterate through the string
+        for (int i = 0; i < s.length(); i++) {
+            // Get the current character in the string
+            char c = s.charAt(i);
+            
+            // If the character is a vowel, toggle the respective bit in the XOR value
+            // This helps track whether the vowel has appeared an even or odd number of times
+            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                // Toggle the corresponding vowel using XOR with its ASCII value
+                xor ^= c;
+            }
+            
+            // If the current XOR value (vowel state) has been seen before
+            if (mpp.containsKey(xor)) {
+                // Calculate the length of the substring from the previous occurrence of this XOR value
+                ans = Math.max(ans, i - mpp.get(xor));
+            } else {
+                // If this XOR value has not been seen before, store it with the current index
+                mpp.put(xor, i);
+            }
+        }
+        
+        // Return the length of the longest valid substring
+        return ans;
+    }
+}

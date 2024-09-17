@@ -1,0 +1,43 @@
+class Solution {
+    public String[] uncommonFromSentences(String s1, String s2) {
+        // Create a HashMap to store the word frequencies from both sentences
+        Map<String, Integer> mpp = new HashMap<>();
+        
+        // Split the first sentence into words and store them in an array
+        String[] words1 = s1.split(" ");
+        // Split the second sentence into words and store them in an array
+        String[] words2 = s2.split(" ");
+        
+        // Loop through each word in the first sentence and update its frequency in the map
+        for (String s : words1) {
+            mpp.put(s, mpp.getOrDefault(s, 0) + 1);
+        }
+        
+        // Loop through each word in the second sentence and update its frequency in the map
+        for (String s : words2) {
+            mpp.put(s, mpp.getOrDefault(s, 0) + 1);
+        }
+        
+        // Create a list to store the uncommon words (words that appear only once)
+        List<String> listt = new ArrayList<>();
+        
+        // Loop through the map to find words that have a frequency of 1
+        for (String s : mpp.keySet()) {
+            if (mpp.get(s) == 1) {
+                listt.add(s); // Add the word to the list if its frequency is 1
+            }
+        }
+
+        // Convert the list of uncommon words to an array
+        String[] ans = new String[listt.size()];
+        int i = 0;
+        // Populate the array with words from the list
+        for (String s : listt) {
+            ans[i] = s;
+            i++;
+        }
+        
+        // Return the array of uncommon words
+        return ans;
+    }
+}

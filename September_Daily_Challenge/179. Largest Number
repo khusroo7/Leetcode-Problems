@@ -1,0 +1,40 @@
+class Solution {
+    public String largestNumber(int[] nums) {
+    // Get the length of the input array
+    int n = nums.length;
+
+    // Create a new String array to store string representations of numbers
+    String elements[] = new String[n];
+
+    // Convert each integer in nums to a string and store it in the elements array
+    for (int i = 0; i < n; i++) {
+        elements[i] = Integer.toString(nums[i]);
+    }
+
+    // Sort the string array based on a custom comparator
+    Arrays.sort(elements, new Comparator<String>() {
+        // Compare two strings by combining them in different orders
+        // If a+b is smaller than b+a, b should come first to form a larger number
+        public int compare(String a, String b) {
+            String first = a + b;
+            String second = b + a;
+            // Use reverse comparison to sort in descending order
+            return second.compareTo(first);
+        }
+    });
+
+    // Edge case: if the largest number is "0", return "0" to avoid multiple leading zeros
+    if (elements[0].equals("0")) {
+        return "0";
+    }
+
+    // Build the result by concatenating all elements
+    String res = "";
+    for (String val : elements) {
+        res += val;
+    }
+
+    // Return the final largest number as a string
+    return res;
+}
+}

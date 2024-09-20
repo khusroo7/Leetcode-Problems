@@ -1,0 +1,38 @@
+class Solution {
+    public String shortestPalindrome(String s) {
+        // Edge case: if the string is null or has only one character, it's already a palindrome.
+        // We simply return the string as no further operations are needed.
+        if (s == null || s.length() <= 1) {
+            return s;
+        }
+        
+        // Reverse the input string s.
+        // This will help us check the longest prefix of s that is also a suffix of its reverse.
+        // Example: If s = "abcd", rev = "dcba".
+        String rev = new StringBuilder(s).reverse().toString();
+        
+        // Iterate over the string s and try to find the longest prefix of s
+        // that matches a suffix of rev (reversed s).
+        // We progressively shrink the size of the prefix in s by reducing its length from the back.
+        for (int i = 0; i < s.length(); i++) {
+            // Check if the substring of s from the start to the (s.length() - i)-th character
+            // matches the substring of rev starting from the i-th character.
+            // Example: s = "abcd", rev = "dcba", we check:
+            // i = 0 -> s.substring(0, 4) = "abcd" and rev.substring(0) = "dcba" -> no match
+            // i = 1 -> s.substring(0, 3) = "abc" and rev.substring(1) = "cba" -> no match
+            // i = 2 -> s.substring(0, 2) = "ab" and rev.substring(2) = "ba" -> no match
+            // i = 3 -> s.substring(0, 1) = "a" and rev.substring(3) = "a" -> match
+            if (s.substring(0, s.length() - i).equals(rev.substring(i))) {
+                // Once we find the longest matching prefix, we add the remaining part of the reversed string
+                // (rev.substring(0, i)) to the front of the original string s to form the palindrome.
+                // Example: s = "abcd", rev = "dcba", match found at i = 3 -> add rev.substring(0, 3) = "dcb"
+                // Result = "dcbabcd", which is the shortest palindrome.
+                return rev.substring(0, i) + s;
+            }
+        }
+        
+        // This return statement will never be reached because the loop above ensures
+        // that we always find a matching prefix, even if it's the empty string.
+        return "";
+    }
+}

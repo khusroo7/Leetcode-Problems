@@ -1,0 +1,54 @@
+class Solution {
+    // dp array to store results of subproblems (memoization), initialized with -1
+    int dp[] = new int[50]; // size can be adjusted based on input constraints
+
+    // Main function to calculate minimum extra characters
+    public int minExtraChar(String s, String[] dictionary) {
+        int n = s.length();
+        // Fill dp array with -1 to signify uncomputed values
+        Arrays.fill(dp, -1);
+        // Convert dictionary array to a HashSet for faster lookup
+        HashSet<String> dictionarySet = new HashSet<>(Arrays.asList(dictionary));
+        // Call the recursive function starting from index 0
+        return recur(s, dictionarySet, 0);
+    }
+
+    // Recursive function to find the minimum extra characters from a given index
+    public int recur(String s, HashSet<String> dictionary, int index) {
+        // Base case: If the index reaches the end of the string, return 0 (no extra chars)
+        if (index == s.length()) {
+            return 0;
+        }
+        
+        // If the result for the current index is already computed, return it
+        if (dp[index] != -1) {
+            return dp[index];
+        }
+
+        // StringBuilder to build substrings starting from the current index
+        StringBuilder sb = new StringBuilder();
+        // Initialize the minimum extra characters to a large value
+        int minExtraChar = Integer.MAX_VALUE;
+
+        // Iterate over the rest of the string from the current index
+        for (int i = index; i < s.length(); i++) {
+            // Append the current character to the substring
+            sb.append(s.charAt(i));
+
+            // extraChar stores the number of extra characters if the substring is not in the dictionary
+            int extraChar = 0;
+            if (!dictionary.contains(sb.toString())) {
+                extraChar = sb.length(); // all characters are extra if the substring is not in dictionary
+            }
+
+            // Recursively compute the minimum extra characters for the rest of the string
+            int currExtra = recur(s, dictionary, i + 1);
+
+            // Update minExtraChar with the minimum of the current computed value and the current combination
+            minExtraChar = Math.min(minExtraChar, extraChar + currExtra);
+        }
+
+        // Store the result for the current index in dp array (memoization) and return it
+        return dp[index] = minExtraChar;
+    }
+}

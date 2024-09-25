@@ -1,0 +1,67 @@
+class Solution {
+    public int[] sumPrefixScores(String[] words) {
+        Trie trie = new Trie();  // Correcting the typo and using a single Trie instance
+        int[] count = new int[words.length];
+
+        // Add all words to the Trie
+        for (String word : words) {
+            trie.addWord(word);
+        }
+
+        // Get prefix score for each word
+        int index = 0;
+        for (String word : words) {
+            count[index] = trie.getPrefixScore(word);  // Correct method call
+            index++;
+        }
+
+        return count;
+    }
+}
+
+class Node {
+    Node[] child;
+    int count;
+
+    Node() {
+        child = new Node[26];
+        count = 0;
+    }
+}
+
+class Trie {
+    Node root;
+
+    Trie() {
+        root = new Node();
+    }
+
+    // Add word to the Trie and track prefix counts
+    public void addWord(String word) {
+        Node temp = root;
+        for (char ch : word.toCharArray()) {
+            int index = ch - 'a';
+            if (temp.child[index] == null) {
+                temp.child[index] = new Node();
+            }
+            temp.child[index].count++;
+            temp = temp.child[index];
+        }
+    }
+
+    // Calculate the prefix score for a given word
+    public int getPrefixScore(String word) {
+        Node temp = root;
+        int count = 0;
+        for (char ch : word.toCharArray()) {
+            int index = ch - 'a';
+            if (temp.child[index] != null) {
+                count += temp.child[index].count;
+                temp = temp.child[index];
+            } else {
+                break;
+            }
+        }
+        return count;
+    }
+}

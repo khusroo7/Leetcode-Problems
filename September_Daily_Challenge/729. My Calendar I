@@ -1,0 +1,30 @@
+class MyCalendar {
+    // Declare the bookings list as an instance variable
+    private List<int[]> bookings;
+
+    // Initializes the calendar object
+    public MyCalendar() {
+        bookings = new ArrayList<>();  // Initialize the list in the constructor
+    }
+
+    // Method to book an event if no double booking occurs
+    public boolean book(int start, int end) {
+        for (int[] booking : bookings) {
+            int bookedStart = booking[0];
+            int bookedEnd = booking[1];
+            // Check if the new event overlaps with an existing one
+            if (start < bookedEnd && bookedStart < end) {
+                return false;  // If overlap found, return false
+            }
+        }
+        // If no overlap, add the new event and return true
+        bookings.add(new int[]{start, end});
+        return true;
+    }
+}
+
+/**
+ * Your MyCalendar object will be instantiated and called as such:
+ * MyCalendar obj = new MyCalendar();
+ * boolean param_1 = obj.book(start,end);
+ */

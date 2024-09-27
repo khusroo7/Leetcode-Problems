@@ -1,0 +1,42 @@
+class MyCalendarTwo {
+    // Lists to store booked events and overlaps
+    private List<int[]> booked;
+    private List<int[]> overlaps;
+
+    // Constructor to initialize the calendar
+    public MyCalendarTwo() {
+        booked = new ArrayList<>();
+        overlaps = new ArrayList<>();
+    }
+
+    // Method to book an event
+    public boolean book(int start, int end) {
+        // Check if the new event causes a triple booking
+        for (int[] interval : overlaps) {
+            if (Math.max(interval[0], start) < Math.min(interval[1], end)) {
+                return false;  // Triple booking detected, return false
+            }
+        }
+
+        // Check for overlaps with previously booked events
+        for (int[] interval : booked) {
+            if (Math.max(interval[0], start) < Math.min(interval[1], end)) {
+                // Add the overlapping interval to overlaps list
+                overlaps.add(new int[]{
+                    Math.max(interval[0], start),
+                    Math.min(interval[1], end)
+                });
+            }
+        }
+
+        // Add the new event to booked events
+        booked.add(new int[]{start, end});
+        return true;  // Successfully booked the event
+    }
+}
+
+/**
+ * Your MyCalendarTwo object will be instantiated and called as such:
+ * MyCalendarTwo obj = new MyCalendarTwo();
+ * boolean param_1 = obj.book(start,end);
+ */

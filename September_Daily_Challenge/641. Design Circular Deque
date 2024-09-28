@@ -1,0 +1,84 @@
+class MyCircularDeque {
+    int size;      // Stores the current number of elements in the deque
+    int capacity;  // Maximum number of elements the deque can hold
+    int front;     // Index pointing to the front element in the deque
+    int rear;      // Index pointing to the rear element in the deque
+    int deque[];   // Array to hold the elements of the deque
+
+    // Constructor to initialize the deque with capacity k
+    public MyCircularDeque(int k) {
+        deque = new int[k];         // Create an array of size k
+        front = 0;                  // Set the front pointer to the first index
+        rear = k - 1;               // Set the rear pointer to the last index
+        size = 0;                   // Initialize size to 0
+        capacity = k;               // Set capacity to the given value k
+    }
+    
+    // Insert an element at the front of the deque
+    public boolean insertFront(int value) {
+        if (isFull()) {             // If deque is full, return false
+            return false;
+        }
+        front = (front - 1 + capacity) % capacity; // Move the front pointer backward in a circular manner
+        deque[front] = value;       // Insert the value at the front
+        size++;                     // Increase the size of the deque
+        return true;                // Return true on successful insertion
+    }
+    
+    // Insert an element at the rear of the deque
+    public boolean insertLast(int value) {
+        if (isFull()) {             // If deque is full, return false
+            return false;
+        }
+        rear = (rear + 1) % capacity; // Move the rear pointer forward in a circular manner
+        deque[rear] = value;        // Insert the value at the rear
+        size++;                     // Increase the size of the deque
+        return true;                // Return true on successful insertion
+    }
+    
+    // Delete an element from the front of the deque
+    public boolean deleteFront() {
+        if (isEmpty()) {            // If deque is empty, return false
+            return false;
+        }
+        front = (front + 1) % capacity; // Move the front pointer forward in a circular manner
+        size--;                     // Decrease the size of the deque
+        return true;                // Return true on successful deletion
+    }
+    
+    // Delete an element from the rear of the deque
+    public boolean deleteLast() {
+        if (isEmpty()) {            // If deque is empty, return false
+            return false;
+        }
+        rear = (rear - 1 + capacity) % capacity; // Move the rear pointer backward in a circular manner
+        size--;                     // Decrease the size of the deque
+        return true;                // Return true on successful deletion
+    }
+    
+    // Get the front element of the deque
+    public int getFront() {
+        if (isEmpty()) {            // If deque is empty, return -1
+            return -1;
+        }
+        return deque[front];        // Return the element at the front
+    }
+    
+    // Get the rear element of the deque
+    public int getRear() {
+        if (isEmpty()) {            // If deque is empty, return -1
+            return -1;
+        }
+        return deque[rear];         // Return the element at the rear
+    }
+
+    // Check if the deque is empty
+    public boolean isEmpty() {
+        return (size == 0);         // Returns true if size is 0, meaning the deque is empty
+    }
+    
+    // Check if the deque is full
+    public boolean isFull() {
+        return (size == capacity);  // Returns true if size equals capacity, meaning the deque is full
+    }
+}

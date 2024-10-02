@@ -1,0 +1,22 @@
+class Solution {
+    public boolean canArrange(int[] arr, int k) {
+        int map[] = new int[k];
+        // Count the frequency of remainders when elements are divided by k
+        for (int element : arr) {
+            int rem = ((element % k) + k) % k; // Handling negative remainders
+            map[rem]++;
+        }
+        // If the count of elements divisible by k is odd, return false
+        if (map[0] % 2 != 0) {
+            return false;
+        }
+        // Check if for every remainder, the complementary remainder has the same count
+        for (int rem = 1; rem < k; rem++) {
+            int comp = k - rem;
+            if (map[rem] != map[comp]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

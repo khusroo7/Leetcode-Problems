@@ -1,0 +1,43 @@
+import java.util.HashMap;
+
+class Solution {
+    public int minSubarray(int[] nums, int p) {
+        long sum = 0;
+        // Calculate the total sum of the array
+        for (int num : nums) {
+            sum = (sum + num) % p;  // Use modulo to prevent overflow
+        }
+
+        // Calculate remainder when sum is divided by p
+        int remainder = (int)(sum % p);
+        if (remainder == 0) {
+            return 0;  // No need to remove any subarray
+        }
+
+        // HashMap to store prefix sums' mod p values and their indices
+        HashMap<Integer, Integer> prefixMap = new HashMap<>();
+        prefixMap.put(0, -1);  // Handle the case where subarray starts from index 0
+
+        int prefixSum = 0;
+        int minLength = nums.length;
+
+        // Iterate over the array to compute prefix sums and check for valid subarrays
+        for (int i = 0; i < nums.length; i++) {
+            prefixSum = (prefixSum + nums[i]) % p;
+
+            // Find the mod p value we need to remove to make the sum divisible by p
+            int target = (prefixSum - remainder + p) % p;
+
+            // Check if we have seen this mod p value before
+            if (prefixMap.containsKey(target)) {
+                minLength = Math.min(minLength, i - prefixMap.get(target));
+            }
+
+            // Store the current mod p value and its index
+            prefixMap.put(prefixSum, i);
+        }
+
+        // Return the minimum length found, or -1 if no valid subarray was found
+        return minLength == nums.length ? -1 : minLength;
+    }
+}

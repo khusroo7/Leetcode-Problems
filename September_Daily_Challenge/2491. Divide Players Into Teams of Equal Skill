@@ -1,0 +1,46 @@
+class Solution {
+    public long dividePlayers(int[] skill) {
+        // Sort the skill array in ascending order to ensure we can pair smallest and largest values
+        Arrays.sort(skill);
+        
+        // Initialize two pointers: 'left' starting at the beginning and 'right' at the end
+        int left = 0;
+        int right = skill.length - 1;
+        
+        // Calculate the sum of the first and last element (smallest and largest)
+        // This will be the expected sum for all pairs
+        int sum = skill[left] + skill[right];
+        
+        // Check if every pair of players has the same total skill
+        while (left < right) {
+            // If the sum of the current pair (skill[left] + skill[right]) does not match the expected sum, return -1
+            if (skill[left] + skill[right] == sum) {
+                left++;   // Move the left pointer to the next element
+                right--;  // Move the right pointer to the previous element
+            } else {
+                return -1;  // If any pair doesn't match the expected total skill, return -1
+            }
+        }
+        
+        // Reset the pointers to calculate the product sum (chemistry) for valid pairs
+        left = 0;
+        right = skill.length - 1;
+        
+        // Initialize productSum to store the total sum of chemistry (product of skill pairs)
+        long productSum = 0;
+        
+        // Iterate again to calculate the chemistry for each valid pair
+        while (left < right) {
+            // Add the product of the current pair's skill to productSum
+            // Typecast to long to avoid overflow when multiplying large numbers
+            productSum += (long) skill[left] * skill[right];
+            
+            // Move the pointers inward to process the next pair
+            left++;
+            right--;
+        }
+        
+        // Return the total sum of chemistry for all valid teams
+        return productSum;
+    }
+}

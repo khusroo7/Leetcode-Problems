@@ -1,0 +1,24 @@
+public class Solution {
+    public int minLength(String s) {
+        // Stack to store the remaining characters
+        Stack<Character> stack = new Stack<>();
+
+        // Traverse through each character in the string
+        for (char c : s.toCharArray()) {
+            // Check if the stack is not empty and the top of the stack forms a removable pair
+            if (!stack.isEmpty()) {
+                char top = stack.peek();
+                // If the pair is "AB" or "CD", remove them (pop from the stack)
+                if ((top == 'A' && c == 'B') || (top == 'C' && c == 'D')) {
+                    stack.pop(); // Remove the pair
+                    continue;    // Move to the next character
+                }
+            }
+            // Otherwise, push the current character onto the stack
+            stack.push(c);
+        }
+
+        // The remaining length of the string is the size of the stack
+        return stack.size();
+    }
+}

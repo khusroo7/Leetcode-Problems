@@ -1,0 +1,29 @@
+class Solution {
+    public int minSwaps(String s) {
+        // Initialize variables to keep track of imbalance
+        int imbalance = 0;  // To track the excess of closing brackets
+        int swaps = 0;      // To track the minimum swaps needed
+        
+        // Traverse the string to find imbalances
+        for (char c : s.toCharArray()) {
+            if (c == '[') {
+                // Encountering an open bracket balances one close bracket
+                imbalance++;
+            } else {
+                // Encountering a close bracket
+                imbalance--;
+            }
+            
+            // If imbalance becomes negative, we have more ']' than '['
+            if (imbalance < 0) {
+                // We need a swap to fix this imbalance
+                swaps++;
+                // After a swap, we assume one imbalance is fixed
+                imbalance = 1; // Reset imbalance after fixing
+            }
+        }
+        
+        // Return the number of swaps needed to balance the string
+        return swaps;
+    }
+}

@@ -1,0 +1,31 @@
+class Solution {
+    public int minAddToMakeValid(String s) {
+    // Create a stack to hold the characters
+    Stack<Character> stack = new Stack<>();
+    
+    // Loop through each character in the input string
+    for (char c : s.toCharArray()) {
+        
+        // If the stack is not empty, we check if we can form a valid pair
+        if (!stack.isEmpty()) {
+            // Peek at the top character of the stack
+            char top = stack.peek();
+            
+            // If the top character is an opening bracket '(' and the current character is a closing bracket ')'
+            if (top == '(' && c == ')') {
+                // A valid pair is found, so we pop the opening bracket '(' from the stack
+                stack.pop();
+                // Continue to the next iteration of the loop to avoid adding the closing bracket ')'
+                continue;
+            }
+        }
+        
+        // If no valid pair is found, push the current character onto the stack
+        stack.push(c);
+    }
+    
+    // The size of the stack represents the number of unmatched brackets (either '(' or ')')
+    // This is the minimum number of additions needed to make the string valid
+    return stack.size();
+}
+}

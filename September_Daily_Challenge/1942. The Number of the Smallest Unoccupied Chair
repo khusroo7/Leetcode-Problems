@@ -1,0 +1,59 @@
+class Solution {
+    public int smallestChair(int[][] times, int targetFriend) {
+        // Get the target friend's arrival time
+        int targetArrival = times[targetFriend][0];
+
+        // Sort the times array based on the arrival times of friends (times[i][0] is the arrival time)
+        Arrays.sort(times, new Comparator<int[]>() {
+            public int compare(int a[], int b[]) {
+                return a[0] - b[0];  // Sort in ascending order of arrival time
+            }
+        });
+
+        // Priority queue (min-heap) for occupied chairs. It stores pairs of [leavingTime, chairNumber].
+        // The queue orders by leavingTime so that the earliest leaving friend gets processed first.
+        PriorityQueue<int[]> occupied = new PriorityQueue<>(new Comparator<int[]>() {
+            public int compare(int a[], int b[]) {
+                return a[0] - b[0];  // Sort in ascending order of leaving time
+            }
+        });
+
+        // Priority queue for available chairs. This is a min-heap that stores chair numbers.
+        PriorityQueue<Integer> available = new PriorityQueue<>();
+
+        // Variable to keep track of the next available chair number when no chairs are available in the heap
+        int chairNo = 0;
+
+        // Loop through each friend's arrival and leaving times
+        for (int time[] : times) {
+            int arrTime = time[0];       // Friend's arrival time
+            int leavingTime = time[1];   // Friend's leaving time
+
+            // Release chairs that are now free because the friends have left
+            while (!occupied.isEmpty() && occupied.peek()[0] <= arrTime) {
+                // Add the chair number back to the available heap when a friend leaves
+                available.offer(occupied.poll()[1]);
+            }
+
+            // Assign a chair to the current friend
+            int currentChair;
+            if (available.isEmpty()) {
+                // If no available chairs in the heap, assign a new chair
+                currentChair = chairNo;
+                chairNo++;  // Increment chair number for the next new assignment
+            } else {
+                // Otherwise, use the lowest-numbered available chair
+                currentChair = available.poll();
+            }
+
+            // If the current friend's arrival time matches the target friend's arrival, return their chair number
+            if (targetArrival == arrTime) return currentChair;
+
+            // Add the current friend's leaving time and their chair to the occupied queue
+            occupied.offer(new int[]{leavingTime, currentChair});
+        }
+
+        // Return -1 if no valid chair found (edge case, should not happen with valid input)
+        return -1;
+    }
+}

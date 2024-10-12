@@ -1,0 +1,36 @@
+class Solution {
+    public int minGroups(int[][] intervals) {
+        // Initialize min to track the smallest starting point of any interval
+        int min = Integer.MAX_VALUE;
+        // Initialize max to track the largest ending point of any interval
+        int max = Integer.MIN_VALUE;
+        int n = intervals.length; // Get the number of intervals
+
+        // Loop through all intervals to find the minimum starting point and maximum ending point
+        for (int i = 0; i < n; i++) {
+            min = Math.min(min, intervals[i][0]); // Update min if current interval's start is smaller
+            max = Math.max(max, intervals[i][1]); // Update max if current interval's end is larger
+        }
+
+        // Create an array to track the number of intervals starting and ending at each point
+        int eventCount[] = new int[max + 2]; // We add 2 to handle interval ends with (max+1) indexing
+
+        // For each interval, mark the start and the end+1 (for proper counting of overlaps)
+        for (int i = 0; i < n; i++) {
+            eventCount[intervals[i][0]]++;    // Increment at the start of an interval
+            eventCount[intervals[i][1] + 1]--; // Decrement at the end + 1 (to signify end of an overlap)
+        }
+
+        int maxOverlaps = 0; // To store the maximum number of overlaps found
+        int sum = 0;         // This will accumulate the current number of overlapping intervals
+
+        // Loop from the minimum start to max+1 to calculate overlaps
+        for (int i = min; i < max + 2; i++) {
+            sum += eventCount[i]; // Add the event count at each point
+            maxOverlaps = Math.max(maxOverlaps, sum); // Track the maximum number of overlaps
+        }
+
+        // Return the maximum number of overlaps, which is the minimum number of groups required
+        return maxOverlaps;
+    }
+}

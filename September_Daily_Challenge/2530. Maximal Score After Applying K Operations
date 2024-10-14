@@ -1,0 +1,32 @@
+class Solution {
+    public long maxKelements(int[] nums, int k) {
+        // Create a max heap (priority queue) where the highest value is at the top
+        // Collections.reverseOrder() makes it a max heap as PriorityQueue is by default a min heap
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        
+        // Add all elements of the nums array to the priority queue
+        for (int i = 0; i < nums.length; i++) {
+            pq.offer(nums[i]); // Insert each number into the max heap
+        }
+        
+        long score = 0; // Initialize the score variable
+        
+        // Perform k operations
+        while (k > 0) {
+            // Poll (remove) the highest value (top of the heap)
+            int val = pq.poll();
+            
+            // Add the value to the score
+            score += val;
+            
+            // Replace the value with its ceiling of the division by 3 and add it back to the heap
+            pq.offer((int) Math.ceil(val / 3.0));
+            
+            // Decrease the number of operations left
+            k--;
+        }
+        
+        // Return the total score after k operations
+        return score;
+    }
+}

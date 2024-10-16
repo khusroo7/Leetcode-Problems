@@ -1,0 +1,14 @@
+class Solution {
+    public long minimumSteps(String s) {
+        long count0=0;
+        long count1=0;
+        for(int i=s.length()-1;i>=0;i--){
+            if(s.charAt(i)=='0'){ // if we encounter 0 at right then we increment count0++ as there should be 1 on right and not 0
+                count0++;
+            }else{
+                count1+=count0; // now suppose we have 100 and move from right to left and we encounter 0 we increment count0=1 then we again have 0 we increment count0=2 then we have 1 so we know that we have to shift 1 to two places towards right so that 1 is right so whatever the count of count0 is we add it to count1 and return that count1 as answer.
+            }
+        }
+        return count1;
+    }
+}

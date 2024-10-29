@@ -1,0 +1,47 @@
+class Solution {
+
+    // Without dp it won't pass the overlapping test cases so we need to use memoization
+
+    public int maxMoves(int[][] grid) {
+        int n = grid.length;  // Number of rows
+        int m = grid[0].length;  // Number of columns
+        int max = 0;
+
+        // Try to find the maximum moves starting from each cell in the first column
+        for (int i = 0; i < n; i++) {
+            max = Math.max(max, getMax(i, 0, grid));
+        }
+
+        return max;  // Return the maximum moves found
+    }
+
+    // Recursive helper function to find the maximum moves from a given cell
+    private int getMax(int i, int j, int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+
+        // If we have reached the end of the grid, return 0 moves
+        if (i == n || j == m) return 0;
+
+
+        int max = 0;
+
+        // Condition 1: Move diagonally up-right (row - 1, col + 1)
+        if (i - 1 >= 0 && j + 1 < m && grid[i - 1][j + 1] > grid[i][j]) {
+            max = 1 + getMax(i - 1, j + 1, grid);
+        }
+
+        // Condition 2: Move right (row, col + 1)
+        if (j + 1 < m && grid[i][j + 1] > grid[i][j]) {
+            max = Math.max(max, 1 + getMax(i, j + 1, grid));
+        }
+
+        // Condition 3: Move diagonally down-right (row + 1, col + 1)
+        if (i + 1 < n && j + 1 < m && grid[i + 1][j + 1] > grid[i][j]) {
+            max = Math.max(max, 1 + getMax(i + 1, j + 1, grid));
+        }
+
+        
+        return  max;
+    }
+}

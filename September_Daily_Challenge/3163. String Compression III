@@ -1,0 +1,30 @@
+public class Solution {
+    // Method to compress a string by counting consecutive characters
+    public String compressedString(String word) {
+        int count = 0; // Counter for consecutive characters
+        char curr = '0'; // Current character being counted
+        StringBuilder sb = new StringBuilder(); // StringBuilder to construct the result
+
+        // Loop through each character in the input string
+        for (char c : word.toCharArray()) {
+            // If the current character is the same as the last one and count is less than 9
+            if (count < 9 && c == curr) {
+                count += 1; // Increment the count
+            } else {
+                // If count is greater than 0, it means we have completed counting a character
+                if (count > 0) {
+                    sb.append(count); // Append the count to the result
+                    sb.append(curr); // Append the character to the result
+                }
+                count = 1; // Reset count for the new character
+                curr = c; // Update the current character to the new one
+            }
+        }
+
+        // After the loop, append the last counted character
+        sb.append(count); // Append the count of the last character
+        sb.append(curr); // Append the last character itself
+        
+        return sb.toString(); // Return the compressed string
+    }
+}

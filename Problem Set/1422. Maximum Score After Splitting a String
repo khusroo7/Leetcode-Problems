@@ -1,0 +1,49 @@
+int ans=0;
+ for(int i=0;i<s.length()-1;i++){
+int curr=0;
+for(int j=0;j<=i;j++){
+if(s.charAt(j)=='0'){
+curr++;
+}
+}
+for(int j=i+1;j<s.length();j++){
+if(s.charAt(j)=='1'){class Solution {
+    public int maxScore(String s) {
+        // Initialize the result variable to keep track of the maximum score
+        int result = 0;
+
+        // Iterate through the string, splitting it into two parts at every index
+        for (int i = 0; i < s.length() - 1; i++) {
+            int cur = 0; // Variable to calculate the current score for this split
+            
+            // Count the number of '0's in the left part (from the start to the current index)
+            for (int j = 0; j <= i; j++) {
+                if (s.charAt(j) == '0') {
+                    cur++;
+                }
+            }
+
+            // Count the number of '1's in the right part (from the next index to the end)
+            for (int j = i + 1; j < s.length(); j++) {
+                if (s.charAt(j) == '1') {
+                    cur++;
+                }
+            }
+
+            // Update the result if the current score is greater than the previous maximum score
+            result = Math.max(result, cur);
+        }
+
+        // Return the maximum score obtained
+        return result;
+    }
+}
+
+curr++;
+}
+}
+ans=Math.max(ans,curr);
+}
+return ans;
+}
+}

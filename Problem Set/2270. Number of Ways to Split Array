@@ -1,0 +1,33 @@
+class Solution {
+    public int waysToSplitArray(int[] nums) {
+        // Initialize variables to store the total sum of the array and the current running sum.
+        long totalSum = 0, currSum = 0;
+
+        // Calculate the total sum of the array.
+        for (int i = 0; i < nums.length; i++) {
+            totalSum += nums[i];
+        }
+
+        // Initialize a counter to keep track of the valid split points.
+        int count = 0;
+
+        // Iterate through the array, stopping at the second-to-last element
+        // because the split must leave at least one element in each part.
+        for (int i = 0; i < nums.length - 1; i++) {
+            // Add the current element to the running sum of the left part.
+            currSum += nums[i];
+
+            // Subtract the current element from the total sum to get the sum of the right part.
+            totalSum -= nums[i];
+
+            // Check if the left part's sum is greater than or equal to the right part's sum.
+            if (currSum >= totalSum) {
+                // If the condition is met, increment the count of valid splits.
+                count++;
+            }
+        }
+
+        // Return the total number of valid splits.
+        return count;
+    }
+}

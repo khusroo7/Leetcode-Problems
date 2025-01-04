@@ -1,0 +1,41 @@
+class Solution {
+    public int countPalindromicSubsequence(String s) {
+        // Create a Set to store unique characters in the string
+        Set<Character> letters = new HashSet();
+        
+        // Add all unique characters in the string to the Set
+        for (Character c: s.toCharArray()) {
+            letters.add(c);
+        }
+        
+        int ans = 0; // Initialize a counter for palindromic subsequences
+        
+        // Iterate through each unique character in the Set
+        for (Character letter : letters) {
+            int i = -1; // Store the first occurrence of the current character
+            int j = 0;  // Store the last occurrence of the current character
+            
+            // Find the first and last occurrence of the current character in the string
+            for (int k = 0; k < s.length(); k++) {
+                if (s.charAt(k) == letter) {
+                    if (i == -1) { // Update the first occurrence
+                        i = k;
+                    }
+                    j = k; // Continuously update the last occurrence
+                }
+            }
+            
+            // Create a Set to store all characters between the first and last occurrence
+            Set<Character> between = new HashSet();
+            for (int k = i + 1; k < j; k++) {
+                between.add(s.charAt(k)); // Add characters to the Set
+            }
+            
+            // The size of the Set represents the number of unique characters
+            // that form palindromic subsequences with the current letter
+            ans += between.size();
+        }
+        
+        return ans; // Return the total count of palindromic subsequences
+    }
+}

@@ -1,0 +1,28 @@
+class Solution {
+    // Method to find all strings in the array that are substrings of another string in the array
+    public List<String> stringMatching(String[] words) {
+        // Initialize a list to store the result
+        List<String> result = new ArrayList<>();
+        
+        // Get the number of words in the input array
+        int n = words.length;
+
+        // Outer loop: iterate over each word in the array
+        for (int i = 0; i < n; i++) {
+            // Inner loop: compare the current word with every other word
+            for (int j = 0; j < n; j++) {
+                // Check if the two indices are not the same (to avoid self-comparison)
+                // and if the word at index 'i' is a substring of the word at index 'j'
+                if (i != j && words[j].contains(words[i])) {
+                    // If the condition is true, add the word at index 'i' to the result list
+                    result.add(words[i]);
+                    // Break out of the inner loop since we've already found a match for words[i]
+                    break;
+                }
+            }
+        }
+
+        // Return the list of all substring matches
+        return result;
+    }
+}

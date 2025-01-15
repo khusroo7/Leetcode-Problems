@@ -1,0 +1,40 @@
+class Solution {
+    public int minimizeXor(int num1, int num2) {
+        // Count the number of '1' bits in num2
+        int setBits = Integer.bitCount(num2);
+        // Start with the most significant bit (31st bit for 32-bit integers)
+        int bit = 31;
+        // Resulting number initialized to 0
+        int res = 0;
+
+        // Step 1: Try to set bits in `res` to match `num1`'s bits, starting from the most significant bit (MSB)
+        while (bit >= 0 && setBits > 0) {
+            // Check if the current bit in `num1` is set (i.e., is 1)
+            if ((num1 & (1 << bit)) != 0) {
+                // Set the same bit in `res`
+                res = res | (1 << bit);
+                // Decrease the count of remaining bits to set
+                setBits--;
+            }
+            // Move to the next less significant bit
+            bit--;
+        }
+
+        // Step 2: Set remaining bits in `res` to 1, starting from the least significant bit (LSB)
+        bit = 0; // Start from the least significant bit
+        while (setBits > 0 && bit <= 31) {
+            // Check if the current bit in `num1` is NOT set (i.e., is 0)
+            if ((num1 & (1 << bit)) == 0) {
+                // Set this bit in `res`
+                res = res | (1 << bit);
+                // Decrease the count of remaining bits to set
+                setBits--;
+            }
+            // Move to the next more significant bit
+            bit++;
+        }
+
+        // Return the resulting number
+        return res;
+    }
+}

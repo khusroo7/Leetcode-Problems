@@ -1,0 +1,41 @@
+class Solution {
+    public int firstCompleteIndex(int[] arr, int[][] mat) {
+        // Get the dimensions of the matrix `mat`
+        int n = mat.length; // Number of rows
+        int m = mat[0].length; // Number of columns
+        
+        // Arrays to track how many cells are filled in each row and column
+        int rowCount[] = new int[n];
+        int colCount[] = new int[m];
+
+        // HashMap to store the mapping of matrix values to their coordinates (row, col)
+        HashMap<Integer, int[]> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {  // Iterate through each row
+            for (int j = 0; j < m; j++) {  // Iterate through each column
+                // Map the value `mat[i][j]` to its coordinates {i, j}
+                map.put(mat[i][j], new int[]{i, j});
+            }
+        }
+
+        // The total number of cells in the matrix
+        int totalCells = n * m;
+
+        // Iterate through the `arr` to find the first index that completes a row or column
+        for (int i = 0; i < totalCells; i++) {
+            // Get the coordinates of the current value in `arr[i]` from the map
+            int cell[] = map.get(arr[i]);
+
+            // Increment the row and column counters for the respective row and column
+            rowCount[cell[0]]++;
+            colCount[cell[1]]++;
+
+            // Check if the current row or column is completely filled
+            if (rowCount[cell[0]] == m || colCount[cell[1]] == n) {
+                return i; // Return the current index if a row or column is completed
+            }
+        }
+
+        // Return -1 if no row or column is completely filled
+        return -1;
+    }
+}

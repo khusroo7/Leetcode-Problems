@@ -1,0 +1,28 @@
+class Solution {
+    public long gridGame(int[][] grid) {
+        // Calculate the initial sum of the first row (top row) of the grid.
+        long topSum = 0;
+        int n = grid[0].length; // Number of columns in the grid.
+        for (int i = 0; i < n; i++) {
+            topSum += grid[0][i];
+        }
+
+        long bottomSum = 0; // Sum of elements traversed in the second row (bottom row) so far.
+        long ans = Long.MAX_VALUE; // Variable to store the minimum possible score for the second robot.
+
+        // Iterate through each column, assuming the first robot switches rows at each point.
+        for (int p = 0; p < n; p++) {
+            // Deduct the current element from the top row sum, as the first robot moves past it.
+            topSum -= grid[0][p];
+
+            // Calculate the maximum score the second robot can achieve if the first robot switches here.
+            ans = Math.min(ans, Math.max(topSum, bottomSum));
+
+            // Add the current element from the bottom row to the bottom sum as the first robot moves past it.
+            bottomSum += grid[1][p];
+        }
+
+        // Return the minimum possible score the second robot can be forced to achieve.
+        return ans;
+    }
+}

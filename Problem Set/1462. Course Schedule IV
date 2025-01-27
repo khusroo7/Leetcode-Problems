@@ -1,0 +1,37 @@
+class Solution {
+    public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
+        // Initialize a 2D boolean matrix to store the prerequisites between courses
+        boolean mat[][] = new boolean[numCourses][numCourses];
+        
+        // Step 1: Populate the matrix based on the given prerequisites
+        for (int i = 0; i < prerequisites.length; i++) {
+            int s = prerequisites[i][0];  // source course
+            int d = prerequisites[i][1];  // destination course
+            mat[s][d] = true;  // mark that course 's' is a prerequisite for course 'd'
+        }
+
+        // Step 2: Apply the Floyd-Warshall algorithm to compute transitive closure
+        // This means if course 'a' is a prerequisite for 'b' and 'b' is a prerequisite for 'c',
+        // then 'a' is indirectly a prerequisite for 'c'.
+        for (int k = 0; k < numCourses; k++) {  // Iterate through all courses
+            for (int s = 0; s < numCourses; s++) {  // Iterate through source courses
+                for (int d = 0; d < numCourses; d++) {  // Iterate through destination courses
+                    // Update the matrix by checking if a path exists from s to d through k
+                    mat[s][d] = mat[s][d] || (mat[s][k] && mat[k][d]);
+                }
+            }
+        }
+
+        // Step 3: Process the queries to check if one course is a prerequisite for another
+        List<Boolean> ans = new ArrayList<>();
+        for (int i = 0; i < queries.length; i++) {
+            int s = queries[i][0];  // source course
+            int d = queries[i][1];  // destination course
+            // Add the result to the answer list: whether course 's' is a prerequisite for course 'd'
+            ans.add(mat[s][d]);
+        }
+
+        // Return the list of results for all queries
+        return ans;
+    }
+}

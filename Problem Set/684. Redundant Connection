@@ -1,0 +1,40 @@
+class Solution {
+    private int[] parent; // Union-Find parent array
+
+    // Function to find the root parent of a node with path compression
+    private int find(int x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]); // Path compression
+        }
+        return parent[x];
+    }
+
+    // Function to union two nodes; returns false if they are already connected (cycle detected)
+    private boolean union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+        if (rootX == rootY) return false; // Cycle detected
+        parent[rootX] = rootY; // Union the sets
+        return true;
+    }
+
+    public int[] findRedundantConnection(int[][] edges) {
+        int n = edges.length;
+        parent = new int[n + 1]; // Initialize parent array (1-based indexing)
+
+        // Each node is its own parent initially (disjoint set)
+        for (int i = 0; i <= n; i++) {
+            parent[i] = i;
+        }
+
+        // Process each edge
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1];
+            if (!union(u, v)) {
+                return edge; // This edge creates a cycle
+            }
+        }
+
+        return new int[0]; // Default case (should not happen)
+    }
+}

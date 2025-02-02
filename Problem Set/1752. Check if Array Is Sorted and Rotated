@@ -1,0 +1,26 @@
+class Solution {
+    public boolean check(int[] nums) {
+        int n = nums.length;
+        int[] sortedArr = nums.clone();
+        Arrays.sort(sortedArr); // Get the original sorted version of nums
+
+        // Try all possible rotations
+        for (int rotation = 0; rotation < n; rotation++) {
+            boolean isValid = true;
+
+            // Compare rotated array with sorted array
+            for (int i = 0; i < n; i++) {
+                if (nums[(i + rotation) % n] != sortedArr[i]) {
+                    isValid = false;
+                    break; // Stop checking if one mismatch is found
+                }
+            }
+
+            if (isValid) {
+                return true; // Found a valid rotation
+            }
+        }
+        
+        return false; // No valid rotation found
+    }
+}

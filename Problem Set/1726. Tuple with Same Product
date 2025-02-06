@@ -1,0 +1,33 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+    public int tupleSameProduct(int[] nums) {
+        // HashMap to store the product of pairs and their frequency
+        HashMap<Integer, Integer> productMap = new HashMap<>();
+
+        // Iterate through all pairs in the array
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                int res = nums[i] * nums[j]; // Compute the product of the pair
+                productMap.put(res, productMap.getOrDefault(res, 0) + 1); // Store the frequency of the product
+            }
+        }
+
+        int ans = 0;
+
+        // Iterate through the product map to calculate the valid tuples
+        for (Map.Entry<Integer, Integer> entry : productMap.entrySet()) {
+            int product = entry.getKey();
+            int count = entry.getValue();
+
+            // If at least two pairs have the same product, calculate the number of valid tuples
+            if (count >= 2) {
+                int comb = (count * (count - 1) / 2); // Number of ways to choose two pairs
+                ans = ans + comb * 8; // Each valid combination contributes 8 unique tuples
+            }
+        }
+
+        return ans; // Return the total count of valid tuples
+    }
+}

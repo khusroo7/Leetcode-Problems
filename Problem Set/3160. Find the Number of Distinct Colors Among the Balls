@@ -1,0 +1,43 @@
+import java.util.HashMap;
+
+class Solution {
+    public int[] queryResults(int limit, int[][] queries) {
+        // HashMap to keep track of the color count
+        HashMap<Integer, Integer> colorMap = new HashMap<>();
+        // HashMap to keep track of which ball has which color
+        HashMap<Integer, Integer> ballMap = new HashMap<>();
+        
+        int n = queries.length; // Number of queries
+        int res[] = new int[n]; // Result array to store unique color counts
+        
+        // Process each query
+        for (int i = 0; i < n; i++) {
+            int ball = queries[i][0];  // Ball number
+            int color = queries[i][1]; // Color assigned to the ball
+            
+            // If the ball is not already in the map, assign it a new color
+            if (!ballMap.containsKey(ball)) {
+                ballMap.put(ball, color); // Assign the color to the ball
+                colorMap.put(color, colorMap.getOrDefault(color, 0) + 1); // Increase color count
+            } else { 
+                // If the ball already exists, update its color
+                int oldColor = ballMap.get(ball); // Get the previous color of the ball
+                colorMap.put(oldColor, colorMap.get(oldColor) - 1); // Decrease count of old color
+                
+                // If the count of the old color becomes zero, remove it from the map
+                if (colorMap.get(oldColor) == 0) {
+                    colorMap.remove(oldColor);
+                }
+                
+                // Assign the new color to the ball
+                ballMap.put(ball, color);
+                colorMap.put(color, colorMap.getOrDefault(color, 0) + 1); // Increase count of new color
+            }
+            
+            // Store the number of unique colors after processing this query
+            res[i] = colorMap.size();
+        }
+        
+        return res; // Return the result array
+    }
+}

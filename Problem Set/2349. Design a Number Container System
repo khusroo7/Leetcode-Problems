@@ -1,0 +1,71 @@
+import java.util.HashMap;
+import java.util.TreeSet;
+
+class NumberContainers {
+    // Maps a number to a sorted set of indices where this number appears
+    HashMap<Integer, TreeSet<Integer>> numberToIdx;
+    
+    // Maps an index to the number currently stored at that index
+    HashMap<Integer, Integer> idxToNumber;
+
+    public NumberContainers() {
+        // Initialize the mappings
+        numberToIdx = new HashMap<>();
+        idxToNumber = new HashMap<>();
+    }
+
+    /**
+     * Updates the number stored at the given index.
+     * If the index already contains a number, it removes the index from the previous number's set.
+     * Then, it updates the index-to-number mapping and adds the index to the new number's set.
+     * 
+     * @param index  The index to be updated
+     * @param number The new number to be assigned to the index
+     */
+    public void change(int index, int number) {
+        // Check if the index already has a number assigned
+        if (idxToNumber.containsKey(index)) {
+            int prev = idxToNumber.get(index); // Get the previous number
+            numberToIdx.get(prev).remove(index); // Remove this index from the previous number's set
+            
+            // If no indices are left for this number, remove it from the map
+            if (numberToIdx.get(prev).size() == 0) {
+                numberToIdx.remove(prev);
+            }
+        }
+
+        // Update the index-to-number mapping
+        idxToNumber.put(index, number);
+
+        // Ensure that the number has an entry in the number-to-indices mapping
+        if (!numberToIdx.containsKey(number)) {
+            numberToIdx.put(number, new TreeSet<>()); // Use TreeSet to maintain sorted order
+        }
+
+        // Add the index to the set of indices for this number
+        numberToIdx.get(number).add(index);
+    }
+
+    /**
+     * Finds the smallest index where the given number is stored.
+     * 
+     * @param number The number to search for
+     * @return The smallest index containing the given number, or -1 if not found
+     */
+    public int find(int number) {
+        // If the number does not exist in the map, return -1
+        if (!numberToIdx.containsKey(number)) {
+            return -1;
+        }
+
+        // Return the smallest index containing this number
+        return numberToIdx.get(number).first();
+    }
+}
+
+/**
+ * Usage Example:
+ * NumberContainers obj = new NumberContainers();
+ * obj.change(index, number);
+ * int param_2 = obj.find(number);
+ */

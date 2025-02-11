@@ -1,0 +1,8 @@
+class Solution {
+    public String removeOccurrences(String s, String part) {
+        while (s.contains(part)) { // Check if 'part' exists in 's'
+            s = s.replaceFirst(part, ""); // Remove only the first occurrence
+        }
+        return s;
+    }
+}

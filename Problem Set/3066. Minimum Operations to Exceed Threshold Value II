@@ -1,0 +1,30 @@
+public class Solution {
+    public int minOperations(int[] nums, int k) {
+        int count = 0;
+        
+        // Use a PriorityQueue with long to avoid overflow
+        PriorityQueue<Long> pq = new PriorityQueue<>();
+        
+        for (int num : nums) {
+            pq.add((long) num);  // Cast each element to long
+        }
+        
+        // Continue operations while the smallest is less than k and there are at least two elements
+        while (pq.size() > 1 && pq.peek() < k) {
+            long x = pq.poll();  // Smallest
+            long y = pq.poll();  // Second smallest
+            
+            long newElement = (2 * Math.min(x, y)) + Math.max(x, y);  // Perform the operation
+            pq.add(newElement);  // Add the result back into the queue
+            
+            count++;  // Increment operation count
+        }
+        
+        // Check if the smallest element is still less than k
+        if (pq.peek() < k) {
+            return -1;  // Not possible to achieve the target
+        }
+        
+        return count;  // Return total operations performed
+    }
+}

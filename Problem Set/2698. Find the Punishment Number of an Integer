@@ -1,0 +1,43 @@
+class Solution {
+    // Recursive method to check if the string i2 can be partitioned to sum up to i
+    public boolean isPartition(int j, String i2, int i, int currSum) {
+        int n = i2.length();
+        
+        // Base case: if we reach the end of the string, check if the current sum equals i
+        if (j == n) {
+            return (currSum == i);
+        }
+
+        // Try all possible partitions from the current index
+        for (int index = j; index < n; index++) {
+            // Convert substring to integer to add to current sum
+            int val = Integer.parseInt(i2.substring(j, index + 1));
+
+            // Recursively check if partition is valid after adding the current value
+            if (isPartition(index + 1, i2, i, currSum + val)) {
+                return true;
+            }
+        }
+        // No valid partition found
+        return false;
+    }
+
+    public int punishmentNumber(int n) {
+        int res = 0;
+
+        // Iterate through numbers from 1 to n
+        for (int i = 1; i <= n; i++) {
+            // Calculate the square and convert it to a string
+            String i2 = Integer.toString(i * i);
+
+            // Check if the square number can be partitioned into sums equal to i
+            if (isPartition(0, i2, i, 0)) {
+                // Add the square to the result if condition is satisfied
+                res += (i * i);
+            }
+        }
+        
+        // Return the final punishment number
+        return res;
+    }
+}

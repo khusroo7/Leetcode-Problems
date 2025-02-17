@@ -1,0 +1,55 @@
+import java.util.HashSet;
+import java.util.Set;
+
+public class Solution {
+
+    /**
+     * Calculates the total number of distinct sequences (subsequences of all possible lengths)
+     * that can be formed from the letters in the given string `tiles`.
+     *
+     * @param tiles A string of letters from which sequences can be formed.
+     * @return The number of unique sequences (excluding the empty sequence).
+     */
+    public int numTilePossibilities(String tiles) {
+        // A set is used to store unique sequences, preventing duplication.
+        Set<String> sequences = new HashSet<>();
+
+        int len = tiles.length();
+        // Used array to keep track of which characters from 'tiles' have been included in the current sequence.
+        boolean[] used = new boolean[len];
+
+        // Recursively generate all possible sequences (including the empty sequence).
+        generateSequences(tiles, "", used, sequences);
+
+        // Since we included the empty sequence in our generation, we subtract 1 from the set size to exclude it.
+        return sequences.size() - 1;
+    }
+
+    /**
+     * Recursively builds all possible sequences by choosing each available character in `tiles`.
+     *
+     * @param tiles      The original string of letters to choose from.
+     * @param current    The sequence built so far in the current recursive path.
+     * @param used       A boolean array indicating which characters of `tiles` are already in `current`.
+     * @param sequences  The set of all unique sequences generated.
+     */
+    public void generateSequences(String tiles, String current, boolean[] used, Set<String> sequences) {
+        // Add the current sequence (which may be empty at first) to the set of unique sequences.
+        sequences.add(current);
+
+        // Explore further by trying to append each unused character in `tiles`.
+        for (int pos = 0; pos < tiles.length(); pos++) {
+            // If the character at position 'pos' has not been used yet...
+            if (!used[pos]) {
+                // Mark it as used.
+                used[pos] = true;
+
+                // Recursively build sequences by adding the current character to the sequence.
+                generateSequences(tiles, current + tiles.charAt(pos), used, sequences);
+
+                // Backtrack: unmark this character as used, to allow other combinations.
+                used[pos] = false;
+            }
+        }
+    }
+}

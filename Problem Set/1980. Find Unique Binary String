@@ -1,0 +1,29 @@
+class Solution {
+    public String findDifferentBinaryString(String[] nums) {
+        // Use the length of each binary string
+        int n = nums[0].length();
+        int total = 1 << n; // 2^n total possibilities.
+        HashMap<String, Integer> binaryMap = new HashMap<>();
+        
+        // Generate all binary strings of length n
+        for (int i = 0; i < total; i++) {
+            String binaryString = Integer.toBinaryString(i);
+            while (binaryString.length() < n) {
+                binaryString = "0" + binaryString;
+            }
+            binaryMap.put(binaryString, i);
+        }
+        
+        // Remove the binary strings that are present in nums
+        for (int i = 0; i < nums.length; i++) {
+            binaryMap.remove(nums[i]);
+        }
+        
+        // Return any remaining binary string (an answer is guaranteed)
+        for (String key : binaryMap.keySet()) {
+            return key;
+        }
+        
+        return "";
+    }
+}

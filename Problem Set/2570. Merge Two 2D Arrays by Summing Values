@@ -1,0 +1,50 @@
+class Solution {
+    public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
+        // Create a list to store the merged result dynamically
+        ArrayList<int[]> res = new ArrayList<>();
+        
+        int n = nums1.length; // Length of first array
+        int m = nums2.length; // Length of second array
+        int i = 0; // Pointer for nums1
+        int j = 0; // Pointer for nums2
+
+        // Merge both arrays while both pointers are within bounds
+        while (i < n && j < m) {
+            if (nums1[i][0] == nums2[j][0]) { 
+                // If both arrays have the same key, sum up their values
+                res.add(new int[]{nums1[i][0], nums1[i][1] + nums2[j][1]});
+                i++; // Move both pointers forward
+                j++;
+            } else if (nums1[i][0] < nums2[j][0]) { 
+                // If nums1 has a smaller key, add it to the result and move i
+                res.add(new int[]{nums1[i][0], nums1[i][1]});
+                i++;
+            } else { 
+                // If nums2 has a smaller key, add it to the result and move j
+                res.add(new int[]{nums2[j][0], nums2[j][1]});
+                j++;
+            }
+        }
+
+        // If there are remaining elements in nums1, add them to the result
+        while (i < n) {
+            res.add(new int[]{nums1[i][0], nums1[i][1]});
+            i++;
+        }
+
+        // If there are remaining elements in nums2, add them to the result
+        while (j < m) {
+            res.add(new int[]{nums2[j][0], nums2[j][1]});
+            j++;
+        }
+
+        // Convert the ArrayList into a 2D array for the final result
+        int len = res.size();
+        int[][] result = new int[len][2];
+        for (int ind = 0; ind < len; ind++) {
+            result[ind] = res.get(ind);
+        }
+
+        return result; // Return the merged 2D array
+    }
+}

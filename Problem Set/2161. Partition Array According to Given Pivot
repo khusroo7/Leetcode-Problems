@@ -1,0 +1,42 @@
+import java.util.*;
+
+class Solution {
+    public int[] pivotArray(int[] nums, int pivot) {
+        // Creating three separate lists to store numbers based on their relation to the pivot
+        List<Integer> less = new ArrayList<>();   // Stores elements less than pivot
+        List<Integer> equal = new ArrayList<>();  // Stores elements equal to pivot
+        List<Integer> greater = new ArrayList<>(); // Stores elements greater than pivot
+
+        // Partitioning elements into the respective lists
+        for (int num : nums) {
+            if (num < pivot) {
+                less.add(num);    // Add elements smaller than pivot
+            } else if (num == pivot) {
+                equal.add(num);   // Add elements equal to pivot
+            } else {
+                greater.add(num); // Add elements greater than pivot
+            }
+        }
+
+        // Creating a result array of the same length as nums
+        int[] result = new int[nums.length];
+        int index = 0; // Index to track position in result array
+
+        // Adding elements from 'less' list first (keeping their relative order)
+        for (int num : less) {
+            result[index++] = num;
+        }
+
+        // Adding elements from 'equal' list next (keeping their relative order)
+        for (int num : equal) {
+            result[index++] = num;
+        }
+
+        // Adding elements from 'greater' list last (keeping their relative order)
+        for (int num : greater) {
+            result[index++] = num;
+        }
+
+        return result; // Returning the rearranged array
+    }
+}

@@ -1,0 +1,11 @@
+class Solution {
+    public long coloredCells(int n) {
+        long count = 1; // Step 1: At the first minute, there is only 1 colored cell.
+        
+        for (int i = 2; i <= n; i++) {  // Step 2: Start from minute 2 to n.
+            count += (i - 1) * 4; // Step 3: Each minute, we add 4 * (i - 1) new cells.
+        }
+        
+        return count; // Step 4: Return the total count.
+    }
+}

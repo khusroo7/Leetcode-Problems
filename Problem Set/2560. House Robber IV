@@ -1,0 +1,35 @@
+import java.util.*;
+
+class Solution {
+    public int minCapability(int[] nums, int k) {
+        int left = Arrays.stream(nums).min().getAsInt(); // Minimum money in any house
+        int right = Arrays.stream(nums).max().getAsInt(); // Maximum money in any house
+        int result = right;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2; // Midpoint of capability
+            if (canRob(nums, k, mid)) { 
+                result = mid; // Try to find a lower valid capability
+                right = mid - 1;
+            } else {
+                left = mid + 1; // Increase capability if not enough houses can be robbed
+            }
+        }
+        return result;
+    }
+
+    private boolean canRob(int[] nums, int k, int cap) {
+        int count = 0;
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] <= cap) { // Rob this house if within capability
+                count++;
+                i += 2; // Move to the next non-adjacent house
+            } else {
+                i++;
+            }
+            if (count >= k) return true; // Stop early if we reach k
+        }
+        return false;
+    }
+}

@@ -1,0 +1,70 @@
+class Solution {
+    public int countPaths(int n, int[][] roads) {
+        // Create an adjacency list to represent the graph.
+        // Each list contains pairs of [neighbor, travel time]
+        List<List<int[]>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+        
+        // Build the graph from the roads input.
+        // Since the roads are bidirectional, add both directions.
+        for (int[] road : roads) {
+            int u = road[0], v = road[1], time = road[2];
+            graph.get(u).add(new int[]{v, time});
+            graph.get(v).add(new int[]{u, time});
+        }
+
+        // dist[i] stores the shortest distance from node 0 to node i.
+        // ways[i] stores the number of ways to reach node i with the shortest distance.
+        long[] dist = new long[n];
+        int[] ways = new int[n];
+        // Initialize all distances as infinity (or a very large number).
+        Arrays.fill(dist, Long.MAX_VALUE);
+        // The distance to the starting node (0) is 0.
+        dist[0] = 0;
+        // There is exactly one way to reach the starting node: starting there.
+        ways[0] = 1;
+
+        // PriorityQueue to always choose the next node with the smallest distance.
+        // Each element is an array: [current distance, node index].
+        PriorityQueue<long[]> pq = new PriorityQueue<>(Comparator.comparingLong(a -> a[0]));
+        pq.offer(new long[]{0, 0});
+
+        // Constant to take modulo of the number of ways (to prevent integer overflow).
+        int MOD = 1_000_000_007;
+
+        // Dijkstra's algorithm: Process nodes in order of increasing distance.
+        while (!pq.isEmpty()) {
+            long[] curr = pq.poll();
+            long d = curr[0];
+            int node = (int) curr[1];
+
+            // Skip if we have already found a better path to this node.
+            if (d > dist[node]) continue;
+
+            // Iterate over all neighbors of the current node.
+            for (int[] neighbor : graph.get(node)) {
+                int nextNode = neighbor[0];
+                int time = neighbor[1];
+
+                // If a shorter path to nextNode is found,
+                // update the distance and set the number of ways to reach it.
+                if (dist[node] + time < dist[nextNode]) {
+                    dist[nextNode] = dist[node] + time;
+                    ways[nextNode] = ways[node];
+                    pq.offer(new long[]{dist[nextNode], nextNode});
+                }
+                // If another shortest path (equal distance) to nextNode is found,
+                // increment the number of ways.
+                else if (dist[node] + time == dist[nextNode]) {
+                    ways[nextNode] = (ways[nextNode] + ways[node]) % MOD;
+                }
+            }
+        }
+
+        // Return the number of ways to reach the last node (n - 1)
+        // using the shortest path.
+        return ways[n - 1];
+    }
+}

@@ -1,0 +1,26 @@
+class Solution {
+    public int countDays(int days, int[][] meetings) {
+        // Create an array to mark meeting days (1-indexed for simplicity)
+        boolean[] isMeetingDay = new boolean[days + 1];
+        
+        // Mark each day that is occupied by a meeting
+        for (int[] meeting : meetings) {
+            int start = meeting[0];
+            int end = meeting[1];
+            // Ensure we only mark within the bounds [1, days]
+            for (int d = Math.max(start, 1); d <= Math.min(end, days); d++) {
+                isMeetingDay[d] = true;
+            }
+        }
+        
+        // Count the free days
+        int freeDays = 0;
+        for (int d = 1; d <= days; d++) {
+            if (!isMeetingDay[d]) {
+                freeDays++;
+            }
+        }
+        
+        return freeDays;
+    }
+}

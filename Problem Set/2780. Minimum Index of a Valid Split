@@ -1,0 +1,35 @@
+class Solution {
+    public int minimumIndex(List<Integer> nums) {
+        int n = nums.size();
+        // Build the frequency map.
+        Map<Integer, Integer> freqMap = new HashMap<>();
+        for (int num : nums) {
+            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+        }
+        
+        // Find the dominant element.
+        int dominant = -1;
+        for (Map.Entry<Integer, Integer> entry : freqMap.entrySet()) {
+            if (entry.getValue() > n / 2) {
+                dominant = entry.getKey();
+                break;
+            }
+        }
+        
+        // Since the problem guarantees a dominant element, we can proceed.
+        int totalDominant = freqMap.get(dominant);
+        int leftCount = 0;
+        
+        // Check every possible split from index 0 to n - 2.
+        for (int i = 0; i < n - 1; i++) {
+            if (nums.get(i) == dominant) {
+                leftCount++;
+            }
+            // Check if dominant is dominant in both left and right parts.
+            if (leftCount > (i + 1) / 2 && (totalDominant - leftCount) > (n - i - 1) / 2) {
+                return i;
+            }
+        }
+        return -1; // No valid split found.
+    }
+}

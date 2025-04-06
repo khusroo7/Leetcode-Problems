@@ -1,0 +1,39 @@
+import java.util.*;
+
+class Solution {
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        // Step 1: Sort the array to ensure we can build divisible chains in increasing order
+        Arrays.sort(nums);
+
+        // Step 2: Create an array of lists to store the largest divisible subset ending at each index
+        List<Integer>[] dp = new ArrayList[nums.length];
+
+        // This will keep track of the index where the largest divisible subset ends
+        int maxIdx = 0;
+
+        // Step 3: Fill the dp array
+        for (int i = 0; i < nums.length; i++) {
+            // Start each dp[i] list with the number itself
+            dp[i] = new ArrayList<>();
+            dp[i].add(nums[i]);
+
+            // Check all previous elements to see if they divide nums[i]
+            for (int j = 0; j < i; j++) {
+                // If nums[i] is divisible by nums[j] and adding nums[i] to dp[j] makes a longer subset
+                if (nums[i] % nums[j] == 0 && dp[j].size() + 1 > dp[i].size()) {
+                    // Copy the subset ending at j and add nums[i] to it
+                    dp[i] = new ArrayList<>(dp[j]);
+                    dp[i].add(nums[i]);
+                }
+            }
+
+            // Update maxIdx if we found a longer subset
+            if (dp[i].size() > dp[maxIdx].size()) {
+                maxIdx = i;
+            }
+        }
+
+        // Step 4: Return the largest subset found
+        return dp[maxIdx];
+    }
+}

@@ -1,0 +1,36 @@
+class Solution {
+
+    // Define the modulo constant to prevent overflow and meet problem constraints
+    long mod = 1000000007;
+
+    // Main method to count the total number of good digit strings of length n
+    public int countGoodNumbers(long n) {
+        // Calculate:
+        //  - 5^(number of even indices) → (n + 1) / 2
+        //  - 4^(number of odd indices)  → n / 2
+        // Multiply both results and take modulo
+        return (int) ((quickmul(5, (n + 1) / 2) * quickmul(4, n / 2)) % mod);
+    }
+
+    // Helper method to calculate (x^y) % mod using fast exponentiation
+    public long quickmul(int x, long y) {
+        long ret = 1;    // Result variable, starts at 1 (neutral element for multiplication)
+        long mul = x;    // Start with base value x
+
+        // Loop until exponent becomes zero
+        while (y > 0) {
+            // If current exponent bit is 1 (i.e., y is odd), multiply result by current base
+            if (y % 2 == 1) {
+                ret = (ret * mul) % mod;
+            }
+            // Square the base for the next bit
+            mul = (mul * mul) % mod;
+
+            // Shift exponent right (equivalent to y = y / 2)
+            y /= 2;
+        }
+
+        // Return the final result of (x^y) % mod
+        return ret;
+    }
+}

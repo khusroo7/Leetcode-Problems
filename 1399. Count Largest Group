@@ -1,0 +1,43 @@
+import java.util.HashMap;
+
+class Solution {
+    public int countLargestGroup(int n) {
+        // Map to store the frequency of each digit sum
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int maxFreq = 0; // Keeps track of the largest group size
+
+        // Loop through numbers from 1 to n
+        for (int i = 1; i <= n; i++) {
+            int sum = digitSum(i); // Calculate digit sum of current number
+
+            // Increment the count of this digit sum in the map
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+
+            // Update maxFreq if this group size is the new maximum
+            maxFreq = Math.max(maxFreq, map.get(sum));
+        }
+
+        int count = 0; // Counter for how many groups have the largest size
+
+        // Iterate through all group sizes in the map
+        for (int freq : map.values()) {
+            // If a group size equals the maximum, increment the count
+            if (freq == maxFreq) {
+                count++;
+            }
+        }
+
+        // Return the number of groups that have the maximum size
+        return count;
+    }
+
+    // Helper function to calculate the sum of digits of a number
+    private int digitSum(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10; // Add the last digit to the sum
+            num /= 10;       // Remove the last digit
+        }
+        return sum;
+    }
+}

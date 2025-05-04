@@ -1,0 +1,29 @@
+class Solution {
+
+    public int numEquivDominoPairs(int[][] dominoes) {
+        // Array to count the occurrences of each domino "signature" (0 to 99)
+        int[] num = new int[100];
+        
+        // Variable to store the total number of equivalent pairs
+        int ret = 0;
+
+        // Loop through each domino in the input
+        for (int[] domino : dominoes) {
+            // Normalize the domino so [a, b] and [b, a] are treated the same
+            // Always place the smaller number first to ensure consistency
+            int val = domino[0] < domino[1]
+                ? domino[0] * 10 + domino[1]
+                : domino[1] * 10 + domino[0];
+
+            // Add the current count of this normalized domino to the result
+            // Because every previous occurrence can form a pair with the current one
+            ret += num[val];
+
+            // Increment the count for this normalized domino
+            num[val]++;
+        }
+
+        // Return the total number of equivalent domino pairs found
+        return ret;
+    }
+}

@@ -1,0 +1,30 @@
+class Solution {
+    public int[] findEvenNumbers(int[] digits) {
+        Set<Integer> uniqueNumbers = new HashSet<>();
+        int n = digits.length;
+
+        // Try every combination of three digits at different positions
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (j == i) continue;
+                for (int k = 0; k < n; k++) {
+                    if (k == i || k == j) continue;
+
+                    int number = digits[i] * 100 + digits[j] * 10 + digits[k];
+                    if (digits[i] != 0 && number % 2 == 0) {
+                        uniqueNumbers.add(number);
+                    }
+                }
+            }
+        }
+
+        // Convert Set to int[]
+        int[] result = new int[uniqueNumbers.size()];
+        int index = 0;
+        for (int num : uniqueNumbers) {
+            result[index++] = num;
+        }
+        Arrays.sort(result);
+        return result;
+    }
+}

@@ -1,0 +1,32 @@
+import java.util.HashMap;
+
+class Solution {
+    public int maxDifference(String s) {
+        HashMap<Character, Integer> freqMap = new HashMap<>();
+
+        // Count the frequency of each character
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            freqMap.put(ch, freqMap.getOrDefault(ch, 0) + 1);
+        }
+
+        int maxDiff = Integer.MIN_VALUE;
+
+        // Iterate through all character pairs
+        for (char a1 : freqMap.keySet()) {
+            int freqA1 = freqMap.get(a1);
+            if (freqA1 % 2 == 1) { // a1 has odd frequency
+                for (char a2 : freqMap.keySet()) {
+                    int freqA2 = freqMap.get(a2);
+                    if (freqA2 % 2 == 0) { // a2 has even frequency
+                        int diff = freqA1 - freqA2;
+                        maxDiff = Math.max(maxDiff, diff);
+                    }
+                }
+            }
+        }
+
+        // If no valid (a1, a2) pair exists
+        return maxDiff == Integer.MIN_VALUE ? 0 : maxDiff;
+    }
+}
